@@ -2,57 +2,18 @@
 
 Current reading of the decision register:
 
-- No `approved`, `rejected`, or `superseded` decision records are present in the repository copy of `docs/HUMAN_DECISION_REGISTER.md`
-- Therefore all listed `HD-xx` items are treated as still open
+- Approved decision records are now present for `HD-01` and `HD-02` in the repository copy of `docs/HUMAN_DECISION_REGISTER.md`
+- Therefore `HD-01` and `HD-02` are no longer treated as open
+- All remaining `HD-xx` items are treated as still open unless explicitly approved later
 
 ## By Phase
 
 ### Blocks Phase 1 Exit
 
-- `HD-01` Reference hardware profile
-  - Status: `open`
-  - Phase impact: `Phase 1 exit blocker`
-  - Human must fill:
-    - reference machine or cloud instance
-    - CPU model
-    - core count
-    - RAM
-    - storage type
-    - OS
-    - container runtime
-  - Decision template:
-    ```text
-    decision_id: HD-01
-    status: open
-    date:
-    owner:
-    decision:
-    rationale:
-    affected_files:
-    freeze_phase: Phase 1
-    ```
-- `HD-02` PostgreSQL version and configuration
-  - Status: `open`
-  - Phase impact: `Phase 1 exit blocker`
-  - Human must fill:
-    - exact PostgreSQL release
-    - shared_buffers
-    - work_mem
-    - effective_cache_size
-    - jit on/off
-    - parallel settings
-    - planner knobs
-  - Decision template:
-    ```text
-    decision_id: HD-02
-    status: open
-    date:
-    owner:
-    decision:
-    rationale:
-    affected_files:
-    freeze_phase: Phase 1
-    ```
+- None from the decision register, provided that the technical Phase 1 exit criteria remain satisfied:
+  - `S0` runs end-to-end on a tiny anchor subset
+  - `artifact-preflight` passes
+  - no protocol drift has occurred
 
 ### Blocks Phase 2 Exit
 
@@ -87,9 +48,46 @@ Current reading of the decision register:
 - `HD-19` Final claim scope
 - `HD-20` Submission window
 
+## Approved Decisions Relevant to Current Phase
+
+### HD-01 Reference hardware profile
+- Status: `approved`
+- Phase impact: `Phase 1 exit blocker cleared`
+- Frozen by: human approval
+- Notes:
+  - reference machine frozen as `TCPC1`
+  - CPU frozen as `13th Gen Intel(R) Core(TM) i9-13900K`
+  - logical core count frozen as `32`
+  - RAM frozen as `34087952384 bytes (~31.75 GiB / 32 GB class)`
+  - OS frozen as `Microsoft Windows 11 Pro 10.0.26200`
+  - container runtime frozen as `none`
+  - storage type recorded as `local system drive (exact SSD/NVMe subtype not independently audited at Phase 1 closeout)`
+
+### HD-02 PostgreSQL version and configuration
+- Status: `approved`
+- Phase impact: `Phase 1 exit blocker cleared`
+- Frozen by: human approval
+- Notes:
+  - PostgreSQL release frozen as `17.9`
+  - shared_buffers frozen as `128MB`
+  - work_mem frozen as `4MB`
+  - effective_cache_size frozen as `4GB`
+  - jit frozen as `on`
+  - max_parallel_workers_per_gather frozen as `2`
+  - planner knobs frozen as `default unless explicitly documented otherwise in later approved records`
+
 ## Immediate Impact
 
 - Phase 0 is not blocked by any currently open `HD-xx`
 - Phase 1 startup implementation is not blocked
-- Phase 1 exit remains blocked until humans freeze `HD-01` and `HD-02`
-- Even if the tiny anchor smoke path becomes technically runnable, formal Phase 1 exit still requires human approval records for `HD-01` and `HD-02`
+- Phase 1 decision-register blockers have been cleared because humans froze `HD-01` and `HD-02`
+- A human-run technical verification has already reached:
+  - `postgres-env-check` = `ready`
+  - `phase1_status` = `Phase 1 environment ready`
+  - `smoke` produced normalized raw-output results
+  - `eval-deploy --policy conservative` produced normalized deployment-utility results
+  - `S0` has run end-to-end on the tiny anchor subset
+- However, the latest Codex closeout rerun did not reproduce that ready state in its own execution context, because non-interactive PostgreSQL authentication was not visible to that rerun
+- Therefore Phase 1 is **not yet formally closed out**
+- The remaining blocker is technical closeout reproducibility in the Codex execution context, not human decision status
+- Phase 2 may begin only after Codex performs the formal Phase 1 closeout and writes the corresponding exit/precheck documents

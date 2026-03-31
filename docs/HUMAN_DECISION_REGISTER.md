@@ -116,3 +116,29 @@ For each approved item, add:
 - `freeze_phase`
 
 Codex may read this file and surface undecided items, but must not mark an item approved.
+## Approved Decision Record: HD-01
+- decision_id: HD-01
+- status: approved
+- date: 2026-03-31
+- owner: Tianci Gao
+- decision: Main experiments use the reference machine `TCPC1` with CPU `13th Gen Intel(R) Core(TM) i9-13900K`, `32` logical cores, RAM `34087952384 bytes (~31.75 GiB / 32 GB class)`, storage type `local system drive (exact SSD/NVMe subtype not independently audited at Phase 1 closeout)`, OS `Microsoft Windows 11 Pro 10.0.26200`, container runtime `none` (current Phase 1 setup uses local PostgreSQL on Windows).
+- rationale: Freeze the reference hardware profile before Phase 1 exit so all subsequent runtime measurements, workload slicing decisions, and reproducibility claims are grounded in a stable machine profile.
+- affected_files:
+  - docs/HUMAN_DECISION_REGISTER.md
+  - docs/OPEN_DECISIONS_STATUS.md
+  - docs/PHASE1_EXIT_REPORT.md
+- freeze_phase: Phase 1
+
+## Approved Decision Record: HD-02
+- decision_id: HD-02
+- status: approved
+- date: 2026-03-31
+- owner: Tianci Gao
+- decision: Main experiments use PostgreSQL `17.9` installed locally on Windows. Frozen core configuration: shared_buffers=`128MB`, work_mem=`4MB`, effective_cache_size=`4GB`, jit=`on`, max_parallel_workers_per_gather=`2`, planner knobs=`default unless explicitly documented otherwise in later approved records`.
+- rationale: Freeze the exact PostgreSQL release and core configuration before Phase 1 exit so baseline profiling and later evaluation results are reproducible and comparable.
+- affected_files:
+  - docs/HUMAN_DECISION_REGISTER.md
+  - docs/OPEN_DECISIONS_STATUS.md
+  - docs/PHASE1_EXIT_REPORT.md
+- freeze_phase: Phase 1
+
