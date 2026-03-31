@@ -1,0 +1,63 @@
+{
+  "blockers": [
+    "PostgreSQL connectivity probe failed; inspect connection parameters or local service/container state"
+  ],
+  "config_sources_checked": [
+    "process environment",
+    "POSTGRES_LOCAL_CONFIG"
+  ],
+  "connection_target_hint": null,
+  "connection_target_source": "psql defaults",
+  "connectivity_ok": false,
+  "connectivity_runtime_ms": 77.261,
+  "connectivity_status": "connection_failed_with_psql_defaults",
+  "connectivity_stderr": "psql: error: connection to server at \"localhost\" (::1), port 5432 failed: fe_sendauth: no password supplied",
+  "connectivity_stdout": "",
+  "docker_probe": {
+    "cli_found": false,
+    "containers": [],
+    "status": "docker_missing"
+  },
+  "explicit_connection_parameters_available": false,
+  "hostname": "TCPC1",
+  "minimal_connection_test_commands": [
+    "\"C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe\" -X -w -d postgres -c \"SELECT 1;\"",
+    "$env:POSTGRES_DSN=\"postgresql://USER:PASSWORD@HOST:5432/DBNAME\"; \"C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe\" $env:POSTGRES_DSN -X -w -c \"SELECT 1;\""
+  ],
+  "pg_env": {
+    "PGDATABASE": null,
+    "PGHOST": null,
+    "PGPORT": null,
+    "PGUSER": null
+  },
+  "pgpassword_present": false,
+  "phase1_status": "Phase 1 ready except environment",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "private_config_error": null,
+  "private_config_loaded_keys": [],
+  "private_config_status": "not_configured",
+  "psql_binary": "psql",
+  "psql_found": true,
+  "psql_path": "C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe",
+  "psql_resolution_source": "windows_fallback",
+  "readiness_status": "blocked",
+  "recommended_next_steps": [
+    "Set `POSTGRES_DSN`, the standard `PGHOST` / `PGPORT` / `PGDATABASE` / `PGUSER` variables, or point `POSTGRES_LOCAL_CONFIG` to a private local config file",
+    "Start a local PostgreSQL service or a reachable PostgreSQL container",
+    "Run `python -m scripts.cli postgres-env-check` again and inspect the JSON report under `results/environment/`",
+    "After connectivity succeeds, rerun `python -m scripts.cli smoke`"
+  ],
+  "server_version": null,
+  "timestamp": "2026-03-31T16:22:57+00:00",
+  "windows_service_probe": {
+    "services": [
+      {
+        "DisplayName": "postgresql-x64-17",
+        "Name": "postgresql-x64-17",
+        "Status": "Running"
+      }
+    ],
+    "status": "ok",
+    "supported": true
+  }
+}

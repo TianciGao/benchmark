@@ -1,0 +1,18 @@
+{
+  "case_id": "smoke_anchor_q1",
+  "comparison_semantics": {
+    "bag_semantics": true,
+    "ignore_row_order": true,
+    "nulls_must_match": true
+  },
+  "result_contract": {
+    "column_count": 1,
+    "columns": [
+      {
+        "name": "answer",
+        "type": "integer"
+      }
+    ]
+  },
+  "notes": "Deterministic scalar output used only for bootstrap smoke wiring."
+}

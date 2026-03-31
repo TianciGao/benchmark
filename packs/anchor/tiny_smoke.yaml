@@ -1,0 +1,13 @@
+{
+  "pack_id": "anchor",
+  "fixture_id": "tiny_smoke",
+  "official_pack_membership": false,
+  "phase_scope": [
+    "Phase 0",
+    "Phase 1"
+  ],
+  "description": "Pre-freeze smoke-only tiny anchor subset used to validate S0 harness wiring.",
+  "cases": [
+    "smoke_anchor_q1"
+  ]
+}

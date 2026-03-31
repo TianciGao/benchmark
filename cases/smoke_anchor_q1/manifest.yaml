@@ -1,0 +1,20 @@
+{
+  "case_id": "smoke_anchor_q1",
+  "pack_id": "anchor",
+  "source": "phase1_smoke_fixture",
+  "dbms": "postgresql",
+  "schema_version": "0.1",
+  "data_snapshot_id": "smoke-inline-v1",
+  "stats_snapshot_id": "smoke-inline-v1",
+  "query_features": [
+    "scalar_select",
+    "deterministic_output"
+  ],
+  "comparison_semantics": {
+    "bag_semantics": true,
+    "ignore_row_order": true
+  },
+  "exclusion_notes": "Smoke-only fixture for Phase 1 bootstrap. This file is not an official frozen anchor case.",
+  "owner": "codex",
+  "freeze_status": "smoke_fixture_only"
+}

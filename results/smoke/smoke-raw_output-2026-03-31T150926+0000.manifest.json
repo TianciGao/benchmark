@@ -1,0 +1,19 @@
+{
+  "case_count": 1,
+  "environment_readiness_status": "blocked",
+  "environment_report_path": "results\\environment\\postgres-env-check-raw_output-2026-03-31T150925+0000.json",
+  "mode": "raw_output",
+  "notes": [
+    "Phase 1 smoke-only fixture",
+    "Not an official frozen pack membership file",
+    "Phase 1 ready except environment"
+  ],
+  "pack_fixture": "packs/anchor/tiny_smoke.yaml",
+  "phase1_status": "Phase 1 ready except environment",
+  "policy": null,
+  "records_path": "results\\smoke\\smoke-raw_output-2026-03-31T150926+0000.jsonl",
+  "run_id": "smoke-raw_output-2026-03-31T150926+0000",
+  "system_family": "S0",
+  "system_id": "s0_native",
+  "timestamp": "2026-03-31T15:09:26+00:00"
+}

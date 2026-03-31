@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NormalizedResultRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "case_id",
+    "system_id",
+    "system_family",
+    "mode",
+    "universe",
+    "policy",
+    "original_sql_hash",
+    "rewrite_sql",
+    "rewrite_sql_hash",
+    "parse_status",
+    "exec_status",
+    "verdict",
+    "evidence_trace_path",
+    "baseline_runtime_samples",
+    "candidate_runtime_samples",
+    "final_runtime_samples",
+    "decision",
+    "engine_version",
+    "stats_snapshot_id",
+    "seed",
+    "timestamp",
+    "notes"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "case_id": {
+      "type": "string"
+    },
+    "system_id": {
+      "type": "string"
+    },
+    "system_family": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "raw_output",
+        "deployment_utility"
+      ]
+    },
+    "universe": {
+      "type": "string",
+      "enum": [
+        "compatibility_subset",
+        "full_subset"
+      ]
+    },
+    "policy": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "original_sql_hash": {
+      "type": "string"
+    },
+    "rewrite_sql": {
+      "type": "string"
+    },
+    "rewrite_sql_hash": {
+      "type": "string"
+    },
+    "parse_status": {
+      "type": "string"
+    },
+    "exec_status": {
+      "type": "string"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "Invalid",
+        "NonExecutable",
+        "Disproved",
+        "Proved",
+        "TestPassed",
+        "Unknown"
+      ]
+    },
+    "evidence_trace_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "baseline_runtime_samples": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "candidate_runtime_samples": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "final_runtime_samples": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "decision": {
+      "type": "string"
+    },
+    "engine_version": {
+      "type": "string"
+    },
+    "stats_snapshot_id": {
+      "type": "string"
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "blocked": true,
+  "blocker": "PostgreSQL connectivity probe failed; inspect connection parameters or local service/container state",
+  "case_id": "smoke_anchor_q1",
+  "environment_readiness_status": "blocked",
+  "environment_report_path": "results\\environment\\postgres-env-check-deployment_utility-2026-03-31T162257+0000.json",
+  "minimal_connection_test_commands": [
+    "\"C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe\" -X -w -d postgres -c \"SELECT 1;\"",
+    "$env:POSTGRES_DSN=\"postgresql://USER:PASSWORD@HOST:5432/DBNAME\"; \"C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe\" $env:POSTGRES_DSN -X -w -c \"SELECT 1;\""
+  ],
+  "mode": "deployment_utility",
+  "phase1_status": "Phase 1 ready except environment",
+  "policy": "conservative",
+  "recommended_next_steps": [
+    "Set `POSTGRES_DSN`, the standard `PGHOST` / `PGPORT` / `PGDATABASE` / `PGUSER` variables, or point `POSTGRES_LOCAL_CONFIG` to a private local config file",
+    "Start a local PostgreSQL service or a reachable PostgreSQL container",
+    "Run `python -m scripts.cli postgres-env-check` again and inspect the JSON report under `results/environment/`",
+    "After connectivity succeeds, rerun `python -m scripts.cli smoke`"
+  ],
+  "runner_availability": "PostgreSQL connectivity probe failed; inspect connection parameters or local service/container state"
+}

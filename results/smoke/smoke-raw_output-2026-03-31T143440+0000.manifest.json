@@ -1,0 +1,15 @@
+{
+  "case_count": 1,
+  "mode": "raw_output",
+  "notes": [
+    "Phase 1 smoke-only fixture",
+    "Not an official frozen pack membership file"
+  ],
+  "pack_fixture": "packs/anchor/tiny_smoke.yaml",
+  "policy": null,
+  "records_path": "results\\smoke\\smoke-raw_output-2026-03-31T143440+0000.jsonl",
+  "run_id": "smoke-raw_output-2026-03-31T143440+0000",
+  "system_family": "S0",
+  "system_id": "s0_native",
+  "timestamp": "2026-03-31T14:34:40+00:00"
+}
