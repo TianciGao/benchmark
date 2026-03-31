@@ -66,9 +66,9 @@ Observed rerun status:
 
 Latest Codex-visible rerun artifacts:
 
-- `results/environment/postgres-env-check-2026-03-31T210924+0000.json`
-- `results/smoke/smoke-raw_output-2026-03-31T210925+0000.jsonl`
-- `results/smoke/smoke-deployment_utility-2026-03-31T210925+0000.jsonl`
+- `results/environment/postgres-env-check-2026-03-31T214140+0000.json`
+- `results/smoke/smoke-raw_output-2026-03-31T214140+0000.jsonl`
+- `results/smoke/smoke-deployment_utility-2026-03-31T214140+0000.jsonl`
 
 Exact technical failure reported in the latest Codex rerun:
 
