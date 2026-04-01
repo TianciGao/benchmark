@@ -13,4 +13,15 @@ These paths may be created by:
 python -m scripts.hd03_toolchain_bind --tpch-dbgen-bin /abs/path/to/dbgen --tpcds-dsdgen-bin /abs/path/to/dsdgen
 ```
 
-If the binaries are not bound here and are not available on `PATH`, HD-03 remains non-executable.
+If the binaries are already staged under `tools/hd03/vendor/bin/`, run:
+
+```bash
+python -m scripts.hd03_toolchain_bind
+```
+
+If the binaries are not bound here and are not available on `PATH`, HD-03 cannot run a real benchmark pilot.
+
+Minimal smoke-level SQL assets live under:
+
+- `sql/hd03/assets/tpch/`
+- `sql/hd03/assets/tpcds/`

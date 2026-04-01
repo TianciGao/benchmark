@@ -8,12 +8,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BIN_DIR = ROOT / "tools" / "hd03" / "bin"
+VENDOR_BIN_DIR = ROOT / "tools" / "hd03" / "vendor" / "bin"
 
 
 def _resolve_candidate(explicit: str | None, env_name: str, binary: str) -> Path | None:
     if explicit:
         path = Path(explicit).expanduser().resolve()
         return path if path.exists() else None
+    staged_local = (VENDOR_BIN_DIR / binary).resolve()
+    if staged_local.exists():
+        return staged_local
     env_value = os.environ.get(env_name)
     if env_value:
         path = Path(env_value).expanduser().resolve()

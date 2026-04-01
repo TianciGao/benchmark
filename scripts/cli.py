@@ -167,6 +167,7 @@ def command_hd03_pilot_toolchain_check(args: argparse.Namespace) -> int:
         f"command_slots_concretized={str(report['command_slot_concretized']).lower()} "
         f"toolchain_present={str(report['toolchain_present']).lower()} "
         f"toolchain_integrated={str(report['toolchain_integrated']).lower()} "
+        f"minimal_pilot_smoke_executable={str(report['minimal_pilot_smoke_executable']).lower()} "
         f"pilot_executable={str(report['pilot_executable']).lower()}"
     )
     print(
@@ -182,14 +183,26 @@ def command_hd03_pilot_toolchain_check(args: argparse.Namespace) -> int:
         f"{json.dumps(report['runtime_manifests'], ensure_ascii=False)}"
     )
     print(
+        "[hd03-pilot-toolchain-check] asset_sql_files="
+        f"{json.dumps(report['asset_sql_files'], ensure_ascii=False)}"
+    )
+    print(
+        "[hd03-pilot-toolchain-check] vendor_source_status="
+        f"{json.dumps(report['vendor_source_status'], ensure_ascii=False)}"
+    )
+    print(
         "[hd03-pilot-toolchain-check] missing_components="
         f"{json.dumps(report['missing_components'], ensure_ascii=False)}"
+    )
+    print(
+        "[hd03-pilot-toolchain-check] pilot_smoke_blockers="
+        f"{json.dumps(report['pilot_smoke_blockers'], ensure_ascii=False)}"
     )
     print(
         "[hd03-pilot-toolchain-check] actual_pilot_blockers="
         f"{json.dumps(report['actual_pilot_blockers'], ensure_ascii=False)}"
     )
-    return 0 if report["pilot_executable"] else 3
+    return 0 if report["minimal_pilot_smoke_executable"] else 3
 
 
 def build_parser() -> argparse.ArgumentParser:

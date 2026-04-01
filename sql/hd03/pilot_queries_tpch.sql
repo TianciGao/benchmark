@@ -1,4 +1,8 @@
 \set ON_ERROR_STOP on
 
--- HD-03 scaffolding only: placeholder local entry point for a future TPC-H pilot timing bundle.
-SELECT 'hd03_pilot_queries_tpch_placeholder' AS scaffold_id;
+-- Minimal executable TPC-H pilot timing driver for HD-03 smoke wiring.
+-- This is not the official TPC-H query text.
+
+\ir assets/tpch/q9.sql
+\ir assets/tpch/q18.sql
+\ir assets/tpch/q21.sql

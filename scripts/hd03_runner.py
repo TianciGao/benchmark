@@ -56,6 +56,21 @@ def _build_env() -> dict[str, str]:
     return env
 
 
+def _connection_args() -> list[str]:
+    return [
+        "-X",
+        "-w",
+        "-h",
+        os.environ.get("PGHOST", ""),
+        "-p",
+        os.environ.get("PGPORT", ""),
+        "-U",
+        os.environ.get("PGUSER", ""),
+        "-d",
+        os.environ.get("PGDATABASE", ""),
+    ]
+
+
 def _run_psql(command: list[str]) -> int:
     completed = subprocess.run(command, check=False, env=_build_env())
     return completed.returncode
@@ -68,6 +83,7 @@ def command_load(args: argparse.Namespace) -> int:
     missing = [item["path"] for item in required if not item["exists"]]
     command = [
         psql_path or "psql",
+        *_connection_args(),
         "-v",
         "ON_ERROR_STOP=1",
         "-v",
@@ -102,16 +118,7 @@ def command_time(args: argparse.Namespace) -> int:
     missing = [item["path"] for item in required if not item["exists"]]
     command = [
         psql_path or "psql",
-        "-X",
-        "-w",
-        "-h",
-        os.environ.get("PGHOST", ""),
-        "-p",
-        os.environ.get("PGPORT", ""),
-        "-U",
-        os.environ.get("PGUSER", ""),
-        "-d",
-        os.environ.get("PGDATABASE", ""),
+        *_connection_args(),
         "-v",
         f"benchmark={args.benchmark}",
         "-f",
