@@ -79,6 +79,8 @@ Existing harness checks that should be run before the pilot:
 
 - `make postgres-env-check`
 - `make artifact-preflight`
+- `make hd03-pilot-init`
+- `make hd03-pilot-check-inputs CONFIG=<scaffolded_config_path>`
 
 ## Output Paths For A Real Pilot Run
 
@@ -102,12 +104,8 @@ Run these commands before any future HD-03 pilot execution:
 ```bash
 make postgres-env-check
 make artifact-preflight
-mkdir -p results/hd03
-mkdir -p analysis/phase2_outputs
-cp results/templates/hd03_anchor_scale_pilot_manifest.template.json \
-  results/hd03/hd03_anchor_scale_pilot_manifest.<timestamp>.json
-cp analysis/phase2_placeholders/hd03_anchor_scale_summary_template.csv \
-  analysis/phase2_outputs/hd03_anchor_scale_summary.<timestamp>.csv
+python -m scripts.cli hd03-pilot-init --run-label <human_label>
+python -m scripts.cli hd03-pilot-check-inputs --config results/hd03/<run_id>.inputs.json
 ```
 
 Then populate the copied manifest with:
@@ -117,6 +115,15 @@ Then populate the copied manifest with:
 - pilot query IDs supplied by humans
 - measurement protocol fields
 - acceptance-rule text supplied by humans
+- command-slot bindings supplied by humans
+
+The `hd03-pilot-init` scaffold creates:
+
+- `results/hd03/<run_id>.inputs.json`
+- `results/hd03/<run_id>.manifest.json`
+- `analysis/phase2_outputs/<run_id>.summary.csv`
+
+The `hd03-pilot-check-inputs` command reports whether the scaffolded input file is complete enough for a later real pilot run.
 
 ## Dataset-Build And Load Command Slots
 

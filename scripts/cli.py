@@ -4,6 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
+from scripts.hd03_pilot import initialize_hd03_scaffold, inspect_hd03_inputs
 from scripts.manifest_loader import load_case_manifest
 from scripts.postgres_runner import PostgresRunner, write_environment_report
 from scripts.smoke import run_smoke
@@ -124,6 +125,35 @@ def command_artifact_preflight(_: argparse.Namespace) -> int:
     return 0
 
 
+def command_hd03_pilot_init(args: argparse.Namespace) -> int:
+    scaffold = initialize_hd03_scaffold(root=ROOT, run_label=args.run_label)
+    print(f"[hd03-pilot-init] run_id={scaffold.run_id}")
+    print(f"[hd03-pilot-init] config={scaffold.config_path}")
+    print(f"[hd03-pilot-init] manifest={scaffold.manifest_path}")
+    print(f"[hd03-pilot-init] summary={scaffold.summary_path}")
+    print("[hd03-pilot-init] real pilot work not started")
+    return 0
+
+
+def command_hd03_pilot_check_inputs(args: argparse.Namespace) -> int:
+    config_path = Path(args.config)
+    if not config_path.is_absolute():
+        config_path = ROOT / config_path
+    report = inspect_hd03_inputs(root=ROOT, config_path=config_path)
+    print(f"[hd03-pilot-check-inputs] run_id={report['run_id']}")
+    print(f"[hd03-pilot-check-inputs] config={report['config_path']}")
+    print(f"[hd03-pilot-check-inputs] ready_for_real_pilot={str(report['ready_for_real_pilot']).lower()}")
+    print(
+        "[hd03-pilot-check-inputs] missing_inputs="
+        f"{json.dumps(report['missing_inputs'], ensure_ascii=False)}"
+    )
+    print(
+        "[hd03-pilot-check-inputs] linked_outputs="
+        f"{json.dumps(report['linked_outputs'], ensure_ascii=False)}"
+    )
+    return 0 if report["ready_for_real_pilot"] else 2
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="VLDB EA&B harness bootstrap CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -139,6 +169,8 @@ def build_parser() -> argparse.ArgumentParser:
         "figures": command_figures,
         "postgres-env-check": command_postgres_env_check,
         "artifact-preflight": command_artifact_preflight,
+        "hd03-pilot-init": command_hd03_pilot_init,
+        "hd03-pilot-check-inputs": command_hd03_pilot_check_inputs,
     }
 
     for name in command_map:
@@ -150,6 +182,16 @@ def build_parser() -> argparse.ArgumentParser:
         choices=["conservative", "practical"],
         default="conservative",
         help="Deployment policy for the smoke fixture",
+    )
+    subparsers.choices["hd03-pilot-init"].add_argument(
+        "--run-label",
+        default=None,
+        help="Optional human-readable label for the scaffolded HD-03 run",
+    )
+    subparsers.choices["hd03-pilot-check-inputs"].add_argument(
+        "--config",
+        required=True,
+        help="Path to a scaffolded HD-03 input config JSON",
     )
     return parser
 

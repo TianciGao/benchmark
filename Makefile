@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: setup smoke pack-freeze eval-raw eval-deploy verify-cases tables figures postgres-env-check artifact-preflight
+.PHONY: setup smoke pack-freeze eval-raw eval-deploy verify-cases tables figures postgres-env-check artifact-preflight hd03-pilot-init hd03-pilot-check-inputs
 
 setup:
 	$(PYTHON) -m scripts.cli setup
@@ -31,3 +31,9 @@ postgres-env-check:
 
 artifact-preflight:
 	$(PYTHON) -m scripts.cli artifact-preflight
+
+hd03-pilot-init:
+	$(PYTHON) -m scripts.cli hd03-pilot-init
+
+hd03-pilot-check-inputs:
+	$(PYTHON) -m scripts.cli hd03-pilot-check-inputs --config $(CONFIG)

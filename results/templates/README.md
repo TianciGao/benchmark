@@ -6,6 +6,7 @@ They are not real run outputs and must not be treated as approved evidence until
 
 Each template corresponds to one human decision:
 
+- `hd03_anchor_scale_inputs.template.json`
 - `hd03_anchor_scale_pilot_manifest.template.json`
 - `hd04_tpcds_slice_pilot_manifest.template.json`
 - `hd05_job_slice_pilot_manifest.template.json`

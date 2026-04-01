@@ -1,0 +1,45 @@
+{
+  "decision_id": "HD-03",
+  "official_decision_made": false,
+  "run_id": "",
+  "status": "template_only",
+  "frozen_reference_environment": {
+    "hardware_decision_id": "HD-01",
+    "postgres_config_decision_id": "HD-02",
+    "hostname": "TCPC1",
+    "postgres_version": "17.9"
+  },
+  "human_inputs": {
+    "candidate_scales": {
+      "tpch": [],
+      "tpcds": []
+    },
+    "acceptance_rules": {
+      "avoid_subsecond_noise_rule": "",
+      "feasibility_rule": ""
+    },
+    "pilot_query_subset": {
+      "tpch": [],
+      "tpcds": []
+    }
+  },
+  "command_slots": {
+    "tpch_dataset_generation_command_template": "<tpch_dataset_generation_command_for_scale>",
+    "tpcds_dataset_generation_command_template": "<tpcds_dataset_generation_command_for_scale>",
+    "postgres_load_command_template": "<postgres_load_command_for_scale>",
+    "pilot_query_timing_command_template": "<pilot_query_timing_command_for_scale>"
+  },
+  "measurement_plan": {
+    "warmups_per_query": 1,
+    "measured_runs_per_query": 5,
+    "primary_statistic": "median"
+  },
+  "linked_outputs": {
+    "pilot_manifest": "",
+    "summary_csv": ""
+  },
+  "notes": [
+    "Leave candidate scales empty until humans provide them.",
+    "Do not treat this file as a final scale decision."
+  ]
+}
