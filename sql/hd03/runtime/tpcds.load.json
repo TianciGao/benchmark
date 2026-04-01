@@ -1,0 +1,14 @@
+{
+  "benchmark": "tpcds",
+  "driver_sql": "sql/hd03/load_anchor_tpcds.sql",
+  "required_files": [
+    {
+      "label": "tpcds_schema_sql",
+      "path": "sql/hd03/assets/tpcds/schema.sql"
+    },
+    {
+      "label": "tpcds_load_sql",
+      "path": "sql/hd03/assets/tpcds/load.sql"
+    }
+  ]
+}

@@ -6,6 +6,8 @@ import shutil
 from pathlib import Path
 from typing import Any
 
+ROOT = Path(__file__).resolve().parents[1]
+
 
 def _read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -31,6 +33,9 @@ def _resolve_tool(binary: str) -> str | None:
     env_override = os.environ.get("PSQL_BIN") if binary == "psql" else None
     if env_override and Path(env_override).exists():
         return env_override
+    local_bound = ROOT / "tools" / "hd03" / "bin" / binary
+    if local_bound.exists():
+        return str(local_bound)
     return shutil.which(binary)
 
 
@@ -56,6 +61,18 @@ def inspect_hd03_toolchain(root: Path, config_path: Path) -> dict[str, Any]:
         }
         for key, path in sql_paths.items()
     }
+    runtime_manifests = {
+        key: {
+            "path": str(path.relative_to(root)),
+            "exists": path.exists(),
+        }
+        for key, path in {
+            "tpch_load_manifest": root / "sql" / "hd03" / "runtime" / "tpch.load.json",
+            "tpcds_load_manifest": root / "sql" / "hd03" / "runtime" / "tpcds.load.json",
+            "tpch_pilot_manifest": root / "sql" / "hd03" / "runtime" / "tpch.pilot.json",
+            "tpcds_pilot_manifest": root / "sql" / "hd03" / "runtime" / "tpcds.pilot.json",
+        }.items()
+    }
 
     tools = {
         "psql": _resolve_tool("psql"),
@@ -79,15 +96,19 @@ def inspect_hd03_toolchain(root: Path, config_path: Path) -> dict[str, Any]:
         if not meta["exists"]:
             missing_components.append(key)
 
+    toolchain_present = bool(tools["psql"] and tools["dbgen"] and tools["dsdgen"])
+    toolchain_integrated = all(meta["exists"] for meta in runtime_manifests.values())
     actual_pilot_blockers: list[str] = []
     if not tools["dbgen"]:
         actual_pilot_blockers.append("TPC-H dataset generation tool `dbgen` not found")
     if not tools["dsdgen"]:
         actual_pilot_blockers.append("TPC-DS dataset generation tool `dsdgen` not found")
+    if not all(meta["exists"] for meta in runtime_manifests.values()):
+        actual_pilot_blockers.append("Runtime manifests for load/timing entry points are incomplete")
     if sql_files["load_anchor_tpch"]["scaffolding_only"] or sql_files["load_anchor_tpcds"]["scaffolding_only"]:
-        actual_pilot_blockers.append("Load SQL entry points are scaffolding-only stubs")
+        actual_pilot_blockers.append("Load SQL entry points still require real benchmark asset SQL")
     if sql_files["pilot_queries_tpch"]["scaffolding_only"] or sql_files["pilot_queries_tpcds"]["scaffolding_only"]:
-        actual_pilot_blockers.append("Pilot timing SQL entry points are scaffolding-only stubs")
+        actual_pilot_blockers.append("Pilot timing SQL entry points still require real benchmark query SQL")
     if not all(env_status.values()):
         actual_pilot_blockers.append("PostgreSQL connection environment is incomplete for non-interactive psql timing")
 
@@ -97,8 +118,11 @@ def inspect_hd03_toolchain(root: Path, config_path: Path) -> dict[str, Any]:
         "resolved_tools": tools,
         "pg_environment_present": env_status,
         "sql_files": sql_files,
+        "runtime_manifests": runtime_manifests,
         "input_completeness_ready": True,
         "command_slot_concretized": True,
+        "toolchain_present": toolchain_present,
+        "toolchain_integrated": toolchain_integrated,
         "pilot_executable": not actual_pilot_blockers,
         "missing_components": missing_components,
         "actual_pilot_blockers": actual_pilot_blockers,

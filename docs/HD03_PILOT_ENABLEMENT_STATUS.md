@@ -88,6 +88,22 @@ The repository is currently:
 - command-slot concrete for HD-03 preparation
 - not yet proven pilot-executable for a real HD-03 run
 
+### Additional Toolchain Layers
+
+`toolchain_present` means:
+
+- `psql`, `dbgen`, and `dsdgen` are all locally resolvable
+
+`toolchain_integrated` means:
+
+- the repo contains runnable local entry points and runtime manifests that bind HD-03 load/timing commands to concrete repo paths
+
+`pilot_executable` means:
+
+- toolchain is present
+- toolchain is integrated
+- the benchmark-specific runtime assets are real rather than scaffold placeholders
+
 ## Protocol Statement
 
 `protocol changed: no`

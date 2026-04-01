@@ -1,0 +1,18 @@
+{
+  "benchmark": "tpcds",
+  "driver_sql": "sql/hd03/pilot_queries_tpcds.sql",
+  "required_files": [
+    {
+      "label": "tpcds_q64_sql",
+      "path": "sql/hd03/assets/tpcds/q64.sql"
+    },
+    {
+      "label": "tpcds_q72_sql",
+      "path": "sql/hd03/assets/tpcds/q72.sql"
+    },
+    {
+      "label": "tpcds_q95_sql",
+      "path": "sql/hd03/assets/tpcds/q95.sql"
+    }
+  ]
+}

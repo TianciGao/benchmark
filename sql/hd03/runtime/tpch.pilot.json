@@ -1,0 +1,18 @@
+{
+  "benchmark": "tpch",
+  "driver_sql": "sql/hd03/pilot_queries_tpch.sql",
+  "required_files": [
+    {
+      "label": "tpch_q9_sql",
+      "path": "sql/hd03/assets/tpch/q9.sql"
+    },
+    {
+      "label": "tpch_q18_sql",
+      "path": "sql/hd03/assets/tpch/q18.sql"
+    },
+    {
+      "label": "tpch_q21_sql",
+      "path": "sql/hd03/assets/tpch/q21.sql"
+    }
+  ]
+}

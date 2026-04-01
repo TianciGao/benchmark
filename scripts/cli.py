@@ -165,6 +165,8 @@ def command_hd03_pilot_toolchain_check(args: argparse.Namespace) -> int:
         "[hd03-pilot-toolchain-check] readiness="
         f"input_complete={str(report['input_completeness_ready']).lower()} "
         f"command_slots_concretized={str(report['command_slot_concretized']).lower()} "
+        f"toolchain_present={str(report['toolchain_present']).lower()} "
+        f"toolchain_integrated={str(report['toolchain_integrated']).lower()} "
         f"pilot_executable={str(report['pilot_executable']).lower()}"
     )
     print(
@@ -174,6 +176,10 @@ def command_hd03_pilot_toolchain_check(args: argparse.Namespace) -> int:
     print(
         "[hd03-pilot-toolchain-check] pg_environment_present="
         f"{json.dumps(report['pg_environment_present'], ensure_ascii=False)}"
+    )
+    print(
+        "[hd03-pilot-toolchain-check] runtime_manifests="
+        f"{json.dumps(report['runtime_manifests'], ensure_ascii=False)}"
     )
     print(
         "[hd03-pilot-toolchain-check] missing_components="

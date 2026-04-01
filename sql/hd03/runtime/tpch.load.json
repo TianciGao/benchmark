@@ -1,0 +1,14 @@
+{
+  "benchmark": "tpch",
+  "driver_sql": "sql/hd03/load_anchor_tpch.sql",
+  "required_files": [
+    {
+      "label": "tpch_schema_sql",
+      "path": "sql/hd03/assets/tpch/schema.sql"
+    },
+    {
+      "label": "tpch_load_sql",
+      "path": "sql/hd03/assets/tpch/load.sql"
+    }
+  ]
+}
