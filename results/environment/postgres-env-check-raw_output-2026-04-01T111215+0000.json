@@ -1,0 +1,53 @@
+{
+  "blockers": [],
+  "config_sources_checked": [
+    "process environment",
+    "POSTGRES_LOCAL_CONFIG"
+  ],
+  "connection_target_hint": "PGHOST=172.17.160.1, PGPORT=5432, PGDATABASE=postgres, PGUSER=postgres",
+  "connection_target_source": "PG* environment variables",
+  "connectivity_ok": true,
+  "connectivity_runtime_ms": 69.647,
+  "connectivity_status": "ready",
+  "connectivity_stderr": "",
+  "connectivity_stdout": "1",
+  "docker_probe": {
+    "cli_found": false,
+    "containers": [],
+    "status": "docker_missing"
+  },
+  "explicit_connection_parameters_available": true,
+  "hostname": "TCPC1",
+  "minimal_connection_test_commands": [
+    "\"/usr/bin/psql\" -h \"172.17.160.1\" -p \"5432\" -U \"postgres\" -d \"postgres\" -X -w -c \"SELECT 1;\"",
+    "\"/usr/bin/psql\" -h \"172.17.160.1\" -p \"5432\" -U \"postgres\" -d \"postgres\" -X -w -c \"SHOW server_version;\""
+  ],
+  "pg_env": {
+    "PGDATABASE": "postgres",
+    "PGHOST": "172.17.160.1",
+    "PGPORT": "5432",
+    "PGUSER": "postgres"
+  },
+  "pgpassword_present": true,
+  "phase1_status": "Phase 1 environment ready",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "private_config_error": null,
+  "private_config_loaded_keys": [],
+  "private_config_status": "not_configured",
+  "psql_binary": "/usr/bin/psql",
+  "psql_found": true,
+  "psql_path": "/usr/bin/psql",
+  "psql_resolution_source": "PSQL_BIN",
+  "readiness_status": "ready",
+  "recommended_next_steps": [
+    "Run `python -m scripts.cli smoke` to confirm S0 end-to-end on the tiny anchor subset",
+    "Record HD-01 and HD-02 before claiming Phase 1 exit"
+  ],
+  "server_version": "17.9",
+  "timestamp": "2026-04-01T11:12:15+00:00",
+  "windows_service_probe": {
+    "services": [],
+    "status": "skipped_non_windows",
+    "supported": false
+  }
+}

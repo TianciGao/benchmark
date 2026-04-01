@@ -179,6 +179,16 @@ class PostgresRunner:
         command = [psql_path or self.psql_bin]
         if self.dsn:
             command.append(self.dsn)
+        else:
+            pg_env = self._pg_env()
+            if pg_env["PGHOST"]:
+                command.extend(["-h", pg_env["PGHOST"]])
+            if pg_env["PGPORT"]:
+                command.extend(["-p", pg_env["PGPORT"]])
+            if pg_env["PGUSER"]:
+                command.extend(["-U", pg_env["PGUSER"]])
+            if pg_env["PGDATABASE"]:
+                command.extend(["-d", pg_env["PGDATABASE"]])
         return command
 
     def _psql_runtime_env(self) -> dict[str, str]:
@@ -513,9 +523,25 @@ def build_minimal_connection_test_commands(
         ]
 
     if any(value for value in pg_env.values()):
+        select_one = [f'"{psql_command}"']
+        show_version = [f'"{psql_command}"']
+        if pg_env["PGHOST"]:
+            select_one.append(f'-h "{pg_env["PGHOST"]}"')
+            show_version.append(f'-h "{pg_env["PGHOST"]}"')
+        if pg_env["PGPORT"]:
+            select_one.append(f'-p "{pg_env["PGPORT"]}"')
+            show_version.append(f'-p "{pg_env["PGPORT"]}"')
+        if pg_env["PGUSER"]:
+            select_one.append(f'-U "{pg_env["PGUSER"]}"')
+            show_version.append(f'-U "{pg_env["PGUSER"]}"')
+        if pg_env["PGDATABASE"]:
+            select_one.append(f'-d "{pg_env["PGDATABASE"]}"')
+            show_version.append(f'-d "{pg_env["PGDATABASE"]}"')
+        select_one.append('-X -w -c "SELECT 1;"')
+        show_version.append('-X -w -c "SHOW server_version;"')
         return [
-            f'"{psql_command}" -X -w -c "SELECT 1;"',
-            f'"{psql_command}" -X -w -c "SHOW server_version;"',
+            " ".join(select_one),
+            " ".join(show_version),
         ]
 
     return [

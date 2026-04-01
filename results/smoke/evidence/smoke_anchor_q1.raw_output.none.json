@@ -1,21 +1,26 @@
 {
-  "blocked": true,
-  "blocker": "PostgreSQL connectivity probe failed; inspect connection parameters or local service/container state",
+  "baseline_stderr": "",
+  "baseline_stdout": "1",
+  "blocked": false,
+  "candidate_stderr": "",
+  "candidate_stdout": "1",
   "case_id": "smoke_anchor_q1",
-  "environment_readiness_status": "blocked",
-  "environment_report_path": "results\\environment\\postgres-env-check-raw_output-2026-03-31T162257+0000.json",
+  "decision": "not_applicable",
+  "environment_readiness_status": "ready",
+  "environment_report_path": "results/environment/postgres-env-check-raw_output-2026-04-01T111215+0000.json",
+  "final_stderr": "",
+  "final_stdout": "1",
   "minimal_connection_test_commands": [
-    "\"C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe\" -X -w -d postgres -c \"SELECT 1;\"",
-    "$env:POSTGRES_DSN=\"postgresql://USER:PASSWORD@HOST:5432/DBNAME\"; \"C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe\" $env:POSTGRES_DSN -X -w -c \"SELECT 1;\""
+    "\"/usr/bin/psql\" -h \"172.17.160.1\" -p \"5432\" -U \"postgres\" -d \"postgres\" -X -w -c \"SELECT 1;\"",
+    "\"/usr/bin/psql\" -h \"172.17.160.1\" -p \"5432\" -U \"postgres\" -d \"postgres\" -X -w -c \"SHOW server_version;\""
   ],
   "mode": "raw_output",
-  "phase1_status": "Phase 1 ready except environment",
+  "phase1_status": "Phase 1 environment ready",
   "policy": null,
   "recommended_next_steps": [
-    "Set `POSTGRES_DSN`, the standard `PGHOST` / `PGPORT` / `PGDATABASE` / `PGUSER` variables, or point `POSTGRES_LOCAL_CONFIG` to a private local config file",
-    "Start a local PostgreSQL service or a reachable PostgreSQL container",
-    "Run `python -m scripts.cli postgres-env-check` again and inspect the JSON report under `results/environment/`",
-    "After connectivity succeeds, rerun `python -m scripts.cli smoke`"
+    "Run `python -m scripts.cli smoke` to confirm S0 end-to-end on the tiny anchor subset",
+    "Record HD-01 and HD-02 before claiming Phase 1 exit"
   ],
-  "runner_availability": "PostgreSQL connectivity probe failed; inspect connection parameters or local service/container state"
+  "runner_availability": "ready",
+  "verdict_reason": "Smoke comparator observed byte-identical stdout"
 }
