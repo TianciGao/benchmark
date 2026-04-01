@@ -28,9 +28,11 @@ All HD-03 pilot work must stay on the frozen Phase 1 environment:
 
 These are already frozen and should not be edited in this packet.
 
-## Exact Inputs Still Required
+## Current v0 Input State
 
-The following inputs must be provided by humans before a real HD-03 pilot can be run:
+The following v0 inputs are now recorded for HD-03 preparation.
+
+They are candidate inputs only and do not constitute a final HD-03 decision.
 
 ### 1. Candidate Scale Lists
 
@@ -42,13 +44,18 @@ These are candidate values only, not final decisions.
 Fill-in slots:
 
 - `TPC-H` candidates:
-  - placeholder: `[TPCH_SCALE_CANDIDATE_1]`
-  - placeholder: `[TPCH_SCALE_CANDIDATE_2]`
-  - placeholder: `[TPCH_SCALE_CANDIDATE_3]`
+  - `10`
+  - `30`
+  - `100`
 - `TPC-DS` candidates:
-  - placeholder: `[TPCDS_SCALE_CANDIDATE_1]`
-  - placeholder: `[TPCDS_SCALE_CANDIDATE_2]`
-  - placeholder: `[TPCDS_SCALE_CANDIDATE_3]`
+  - `10`
+  - `30`
+  - `50`
+
+Additional note:
+
+- `TPC-DS` scale `100` is escalation-only fallback.
+- It is not part of the initial candidate list unless all initial `TPC-DS` candidates remain too fast.
 
 JSON mapping:
 
@@ -65,9 +72,9 @@ These rules must be written before the pilot so the later decision is evidence-d
 Fill-in slots:
 
 - avoid-subsecond-noise rule:
-  - placeholder: `[AVOID_SUBSECOND_NOISE_RULE]`
+  - A candidate scale remains eligible only if, on the frozen Phase 1 environment and under the fixed runtime protocol (`1` warmup + `5` measured runs, median as the primary statistic), at least `2` out of `3` pilot queries for that benchmark have median runtime `>= 1.0 second`, and no pilot query used as evidence has median runtime `< 0.5 second`. If all candidate scales violate this rule, the benchmark must escalate to the next larger candidate scale before any final HD-03 decision is made.
 - feasibility rule:
-  - placeholder: `[FEASIBILITY_RULE]`
+  - A candidate scale remains feasible only if the pilot bundle for one benchmark (data ready or refresh, then `3` pilot queries timed with `1` warmup + `5` measured runs each) completes within `30 minutes` wall-clock, and the projected full-anchor baseline profiling effort for that benchmark on the frozen machine is expected to remain within `6 hours`. If two candidate scales both satisfy the noise rule, prefer the smaller one that still satisfies this feasibility rule.
 
 JSON mapping:
 
@@ -84,13 +91,18 @@ These are pilot-only query subsets for scale testing, not final pack membership 
 Fill-in slots:
 
 - `TPC-H` pilot query subset:
-  - placeholder: `[TPCH_PILOT_QUERY_ID_1]`
-  - placeholder: `[TPCH_PILOT_QUERY_ID_2]`
-  - placeholder: `[TPCH_PILOT_QUERY_ID_3]`
+  - `Q9`
+  - `Q18`
+  - `Q21`
 - `TPC-DS` pilot query subset:
-  - placeholder: `[TPCDS_PILOT_QUERY_ID_1]`
-  - placeholder: `[TPCDS_PILOT_QUERY_ID_2]`
-  - placeholder: `[TPCDS_PILOT_QUERY_ID_3]`
+  - `Q64`
+  - `Q72`
+  - `Q95`
+
+Additional note:
+
+- The `TPC-DS` pilot subset is a provisional seed set for scale-sensitivity probing only.
+- It is not the final slow slice.
 
 JSON mapping:
 
@@ -106,13 +118,13 @@ They must be concrete commands by the time the real pilot starts.
 Fill-in slots:
 
 - `TPC-H` dataset generation or location command:
-  - placeholder: `[TPCH_DATASET_GENERATION_COMMAND]`
+  - `TBD_LOCAL_BINDING: dbgen -vf -s {scale} -b dists.dss`
 - `TPC-DS` dataset generation or location command:
-  - placeholder: `[TPCDS_DATASET_GENERATION_COMMAND]`
+  - `TBD_LOCAL_BINDING: dsdgen -FORCE -SCALE {scale} -DIR {out_dir}`
 - PostgreSQL load or refresh command:
-  - placeholder: `[POSTGRES_LOAD_COMMAND]`
+  - `TBD_LOCAL_BINDING: psql -v ON_ERROR_STOP=1 -f <load_sql_for_{benchmark}> -v data_dir='{data_dir}' -v scale='{scale}'`
 - pilot query timing command:
-  - placeholder: `[PILOT_QUERY_TIMING_COMMAND]`
+  - `TBD_LOCAL_BINDING: psql -X -w -h $PGHOST -p $PGPORT -U $PGUSER -d $PGDATABASE -f <pilot_query_sql_file>`
 
 JSON mapping:
 
@@ -144,23 +156,26 @@ Collect the inputs in this exact order:
    - do not proceed if the intended pilot machine/config differs
 
 2. Write the acceptance rules first.
-   - fill `[AVOID_SUBSECOND_NOISE_RULE]`
-   - fill `[FEASIBILITY_RULE]`
+   - record the current v0 avoid-subsecond-noise rule
+   - record the current v0 feasibility rule
    - this must happen before candidate scales are evaluated so the decision rule is not retrofitted after seeing results
 
 3. Provide candidate scale lists.
-   - fill the `TPC-H` candidate placeholders
-   - fill the `TPC-DS` candidate placeholders
+   - record the current `TPC-H` candidate list: `10, 30, 100`
+   - record the current `TPC-DS` candidate list: `10, 30, 50`
+   - record the escalation-only note for `TPC-DS` scale `100`
    - these are candidate inputs only and must not be mislabeled as approved scales
 
 4. Provide pilot query subsets.
-   - fill the `TPC-H` pilot query placeholders
-   - fill the `TPC-DS` pilot query placeholders
+   - record the `TPC-H` pilot subset: `Q9, Q18, Q21`
+   - record the `TPC-DS` pilot subset: `Q64, Q72, Q95`
+   - record that the `TPC-DS` subset is provisional for scale-sensitivity probing only
    - these are pilot-only probe queries, not final slice or pack membership decisions
 
 5. Bind the command slots.
-   - fill the four command placeholders with concrete commands valid on the frozen machine
-   - these commands must be recorded exactly as intended for later reproducibility
+   - record the current v0 command templates
+   - note that two bindings remain locally incomplete until `<load_sql_for_{benchmark}>` and `<pilot_query_sql_file>` are concretized
+   - keep the `TBD_LOCAL_BINDING:` prefix so these are not mistaken for fully validated local commands
 
 6. Initialize a scaffolded run bundle.
    - run `python -m scripts.cli hd03-pilot-init --run-label <human_label>`
@@ -205,7 +220,8 @@ Before the repo is allowed to proceed to a real HD-03 pilot, confirm:
 - all candidate-scale placeholders are replaced with candidate values
 - both acceptance rules are written
 - both pilot query subsets are written
-- all four command placeholders are replaced with concrete commands
+- all four command slots are populated at least to v0
+- local unresolved placeholders such as `<load_sql_for_{benchmark}>` and `<pilot_query_sql_file>` are explicitly resolved before any real pilot run
 - `official_decision_made` remains `false`
 - no final scale choice is written anywhere in this packet
 - no `TPC-DS` slice or `JOB` slice decision has been implied

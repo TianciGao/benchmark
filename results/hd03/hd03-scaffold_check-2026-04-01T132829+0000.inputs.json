@@ -1,0 +1,64 @@
+{
+  "command_slots": {
+    "pilot_query_timing_command_template": "TBD_LOCAL_BINDING: psql -X -w -h $PGHOST -p $PGPORT -U $PGUSER -d $PGDATABASE -f <pilot_query_sql_file>",
+    "postgres_load_command_template": "TBD_LOCAL_BINDING: psql -v ON_ERROR_STOP=1 -f <load_sql_for_{benchmark}> -v data_dir='{data_dir}' -v scale='{scale}'",
+    "tpcds_dataset_generation_command_template": "TBD_LOCAL_BINDING: dsdgen -FORCE -SCALE {scale} -DIR {out_dir}",
+    "tpch_dataset_generation_command_template": "TBD_LOCAL_BINDING: dbgen -vf -s {scale} -b dists.dss"
+  },
+  "decision_id": "HD-03",
+  "frozen_reference_environment": {
+    "hardware_decision_id": "HD-01",
+    "hostname": "TCPC1",
+    "postgres_config_decision_id": "HD-02",
+    "postgres_version": "17.9"
+  },
+  "human_inputs": {
+    "acceptance_rules": {
+      "avoid_subsecond_noise_rule": "A candidate scale remains eligible only if, on the frozen Phase 1 environment and under the fixed runtime protocol (1 warmup + 5 measured runs, median as the primary statistic), at least 2 out of 3 pilot queries for that benchmark have median runtime >= 1.0 second, and no pilot query used as evidence has median runtime < 0.5 second. If all candidate scales violate this rule, the benchmark must escalate to the next larger candidate scale before any final HD-03 decision is made.",
+      "feasibility_rule": "A candidate scale remains feasible only if the pilot bundle for one benchmark (data ready or refresh, then 3 pilot queries timed with 1 warmup + 5 measured runs each) completes within 30 minutes wall-clock, and the projected full-anchor baseline profiling effort for that benchmark on the frozen machine is expected to remain within 6 hours. If two candidate scales both satisfy the noise rule, prefer the smaller one that still satisfies this feasibility rule."
+    },
+    "candidate_scales": {
+      "tpcds": [
+        10,
+        30,
+        50
+      ],
+      "tpch": [
+        10,
+        30,
+        100
+      ]
+    },
+    "pilot_query_subset": {
+      "tpcds": [
+        "Q64",
+        "Q72",
+        "Q95"
+      ],
+      "tpch": [
+        "Q9",
+        "Q18",
+        "Q21"
+      ]
+    }
+  },
+  "linked_outputs": {
+    "pilot_manifest": "results/hd03/hd03-scaffold_check-2026-04-01T132829+0000.manifest.json",
+    "summary_csv": "analysis/phase2_outputs/hd03-scaffold_check-2026-04-01T132829+0000.summary.csv"
+  },
+  "measurement_plan": {
+    "measured_runs_per_query": 5,
+    "primary_statistic": "median",
+    "warmups_per_query": 1
+  },
+  "notes": [
+    "Leave candidate scales empty until humans provide them.",
+    "Do not treat this file as a final scale decision.",
+    "TPC-DS scale 100 is escalation-only fallback and is not part of the initial candidate list unless all initial TPC-DS candidates remain too fast.",
+    "The TPC-DS pilot subset is a provisional seed set for scale-sensitivity probing only and is not the final slow slice.",
+    "The load and timing command bindings remain locally incomplete until <load_sql_for_{benchmark}> and <pilot_query_sql_file> are resolved."
+  ],
+  "official_decision_made": false,
+  "run_id": "hd03-scaffold_check-2026-04-01T132829+0000",
+  "status": "scaffold_initialized"
+}
