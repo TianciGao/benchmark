@@ -81,6 +81,7 @@ Existing harness checks that should be run before the pilot:
 - `make artifact-preflight`
 - `make hd03-pilot-init`
 - `make hd03-pilot-check-inputs CONFIG=<scaffolded_config_path>`
+- `make hd03-pilot-toolchain-check CONFIG=<scaffolded_config_path>`
 
 ## Output Paths For A Real Pilot Run
 
@@ -124,6 +125,8 @@ The `hd03-pilot-init` scaffold creates:
 - `analysis/phase2_outputs/<run_id>.summary.csv`
 
 The `hd03-pilot-check-inputs` command reports whether the scaffolded input file is complete enough for a later real pilot run.
+
+The `hd03-pilot-toolchain-check` command reports whether the current local machine has moved beyond input completeness and command concretization into actual pilot executability.
 
 ## Dataset-Build And Load Command Slots
 

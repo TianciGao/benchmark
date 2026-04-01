@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from scripts.hd03_pilot import initialize_hd03_scaffold, inspect_hd03_inputs
+from scripts.hd03_toolchain import inspect_hd03_toolchain
 from scripts.manifest_loader import load_case_manifest
 from scripts.postgres_runner import PostgresRunner, write_environment_report
 from scripts.smoke import run_smoke
@@ -154,6 +155,37 @@ def command_hd03_pilot_check_inputs(args: argparse.Namespace) -> int:
     return 0 if report["ready_for_real_pilot"] else 2
 
 
+def command_hd03_pilot_toolchain_check(args: argparse.Namespace) -> int:
+    config_path = Path(args.config)
+    if not config_path.is_absolute():
+        config_path = ROOT / config_path
+    report = inspect_hd03_toolchain(root=ROOT, config_path=config_path)
+    print(f"[hd03-pilot-toolchain-check] config={report['config_path']}")
+    print(
+        "[hd03-pilot-toolchain-check] readiness="
+        f"input_complete={str(report['input_completeness_ready']).lower()} "
+        f"command_slots_concretized={str(report['command_slot_concretized']).lower()} "
+        f"pilot_executable={str(report['pilot_executable']).lower()}"
+    )
+    print(
+        "[hd03-pilot-toolchain-check] resolved_tools="
+        f"{json.dumps(report['resolved_tools'], ensure_ascii=False)}"
+    )
+    print(
+        "[hd03-pilot-toolchain-check] pg_environment_present="
+        f"{json.dumps(report['pg_environment_present'], ensure_ascii=False)}"
+    )
+    print(
+        "[hd03-pilot-toolchain-check] missing_components="
+        f"{json.dumps(report['missing_components'], ensure_ascii=False)}"
+    )
+    print(
+        "[hd03-pilot-toolchain-check] actual_pilot_blockers="
+        f"{json.dumps(report['actual_pilot_blockers'], ensure_ascii=False)}"
+    )
+    return 0 if report["pilot_executable"] else 3
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="VLDB EA&B harness bootstrap CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -171,6 +203,7 @@ def build_parser() -> argparse.ArgumentParser:
         "artifact-preflight": command_artifact_preflight,
         "hd03-pilot-init": command_hd03_pilot_init,
         "hd03-pilot-check-inputs": command_hd03_pilot_check_inputs,
+        "hd03-pilot-toolchain-check": command_hd03_pilot_toolchain_check,
     }
 
     for name in command_map:
@@ -192,6 +225,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--config",
         required=True,
         help="Path to a scaffolded HD-03 input config JSON",
+    )
+    subparsers.choices["hd03-pilot-toolchain-check"].add_argument(
+        "--config",
+        required=True,
+        help="Path to a populated HD-03 input config JSON",
     )
     return parser
 
