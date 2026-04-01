@@ -122,9 +122,9 @@ Fill-in slots:
 - `TPC-DS` dataset generation or location command:
   - `TBD_LOCAL_BINDING: dsdgen -FORCE -SCALE {scale} -DIR {out_dir}`
 - PostgreSQL load or refresh command:
-  - `TBD_LOCAL_BINDING: psql -v ON_ERROR_STOP=1 -f <load_sql_for_{benchmark}> -v data_dir='{data_dir}' -v scale='{scale}'`
+  - `TBD_LOCAL_BINDING: psql -v ON_ERROR_STOP=1 -v benchmark='{benchmark}' -v data_dir='{data_dir}' -v scale='{scale}' -f sql/hd03/load_anchor_${benchmark}.sql`
 - pilot query timing command:
-  - `TBD_LOCAL_BINDING: psql -X -w -h $PGHOST -p $PGPORT -U $PGUSER -d $PGDATABASE -f <pilot_query_sql_file>`
+  - `TBD_LOCAL_BINDING: psql -X -w -h $PGHOST -p $PGPORT -U $PGUSER -d $PGDATABASE -v benchmark='{benchmark}' -f sql/hd03/pilot_queries_${benchmark}.sql`
 
 JSON mapping:
 
@@ -174,7 +174,11 @@ Collect the inputs in this exact order:
 
 5. Bind the command slots.
    - record the current v0 command templates
-   - note that two bindings remain locally incomplete until `<load_sql_for_{benchmark}>` and `<pilot_query_sql_file>` are concretized
+   - bind the local SQL entry points to:
+     - `sql/hd03/load_anchor_tpch.sql`
+     - `sql/hd03/load_anchor_tpcds.sql`
+     - `sql/hd03/pilot_queries_tpch.sql`
+     - `sql/hd03/pilot_queries_tpcds.sql`
    - keep the `TBD_LOCAL_BINDING:` prefix so these are not mistaken for fully validated local commands
 
 6. Initialize a scaffolded run bundle.
@@ -221,7 +225,7 @@ Before the repo is allowed to proceed to a real HD-03 pilot, confirm:
 - both acceptance rules are written
 - both pilot query subsets are written
 - all four command slots are populated at least to v0
-- local unresolved placeholders such as `<load_sql_for_{benchmark}>` and `<pilot_query_sql_file>` are explicitly resolved before any real pilot run
+- local SQL entry points exist for both benchmarks under `sql/hd03/`
 - `official_decision_made` remains `false`
 - no final scale choice is written anywhere in this packet
 - no `TPC-DS` slice or `JOB` slice decision has been implied

@@ -1,7 +1,7 @@
 {
   "command_slots": {
-    "pilot_query_timing_command_template": "TBD_LOCAL_BINDING: psql -X -w -h $PGHOST -p $PGPORT -U $PGUSER -d $PGDATABASE -f <pilot_query_sql_file>",
-    "postgres_load_command_template": "TBD_LOCAL_BINDING: psql -v ON_ERROR_STOP=1 -f <load_sql_for_{benchmark}> -v data_dir='{data_dir}' -v scale='{scale}'",
+    "pilot_query_timing_command_template": "TBD_LOCAL_BINDING: psql -X -w -h $PGHOST -p $PGPORT -U $PGUSER -d $PGDATABASE -v benchmark='{benchmark}' -f sql/hd03/pilot_queries_${benchmark}.sql",
+    "postgres_load_command_template": "TBD_LOCAL_BINDING: psql -v ON_ERROR_STOP=1 -v benchmark='{benchmark}' -v data_dir='{data_dir}' -v scale='{scale}' -f sql/hd03/load_anchor_${benchmark}.sql",
     "tpcds_dataset_generation_command_template": "TBD_LOCAL_BINDING: dsdgen -FORCE -SCALE {scale} -DIR {out_dir}",
     "tpch_dataset_generation_command_template": "TBD_LOCAL_BINDING: dbgen -vf -s {scale} -b dists.dss"
   },
@@ -56,7 +56,7 @@
     "Do not treat this file as a final scale decision.",
     "TPC-DS scale 100 is escalation-only fallback and is not part of the initial candidate list unless all initial TPC-DS candidates remain too fast.",
     "The TPC-DS pilot subset is a provisional seed set for scale-sensitivity probing only and is not the final slow slice.",
-    "The load and timing command bindings remain locally incomplete until <load_sql_for_{benchmark}> and <pilot_query_sql_file> are resolved."
+    "Local SQL entry points for the load and timing command slots now exist under sql/hd03/ as scaffolding-only stubs."
   ],
   "official_decision_made": false,
   "run_id": "hd03-scaffold_check-2026-04-01T132829+0000",
