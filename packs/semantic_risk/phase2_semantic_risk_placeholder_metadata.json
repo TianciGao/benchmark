@@ -1,0 +1,16 @@
+{
+  "pack_id": "semantic_risk",
+  "status": "phase2_placeholder_only",
+  "official_pack_frozen": false,
+  "official_membership_defined": false,
+  "human_decisions_pending": [
+    "HD-07"
+  ],
+  "target_case_count_after_approval": 40,
+  "fixed_family_count": 8,
+  "notes": [
+    "This file is placeholder metadata only.",
+    "It does not define official pack membership.",
+    "No semantic-risk final set has been selected."
+  ]
+}

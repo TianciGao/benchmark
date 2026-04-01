@@ -1,0 +1,26 @@
+{
+  "template_id": "hd07_semantic_risk_review_manifest",
+  "decision_id": "HD-07",
+  "status": "template_only",
+  "official_decision_made": false,
+  "fixed_families": [
+    "NULL / NOT IN / three-valued logic",
+    "outer join + filter movement",
+    "duplicates / DISTINCT / GROUP BY",
+    "aggregation / HAVING",
+    "EXISTS / IN / semi-join rewrites",
+    "window + ORDER BY / LIMIT",
+    "UNION / UNION ALL / EXCEPT / INTERSECT",
+    "string predicates / non-PK-FK joins / complex predicates"
+  ],
+  "candidate_inventory": [],
+  "candidate_reviews": [],
+  "requested_human_decision": {
+    "approved_candidate_ids": [],
+    "target_case_count": 40
+  },
+  "linked_docs": {
+    "evidence_packet": "docs/phase2_templates/HD-07_semantic_risk_packet.md",
+    "summary_table": "analysis/phase2_placeholders/hd07_semantic_risk_coverage_summary_template.csv"
+  }
+}

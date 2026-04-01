@@ -1,0 +1,22 @@
+{
+  "template_id": "hd04_tpcds_slice_pilot_manifest",
+  "decision_id": "HD-04",
+  "status": "template_only",
+  "official_decision_made": false,
+  "depends_on": [
+    "HD-03"
+  ],
+  "scale_factor_reference": "",
+  "selection_rule": "",
+  "candidate_query_ids": [],
+  "rejected_query_ids": [],
+  "measurements": [],
+  "requested_human_decision": {
+    "approved_slice_id": "",
+    "included_query_ids": []
+  },
+  "linked_docs": {
+    "evidence_packet": "docs/phase2_templates/HD-04_tpcds_slice_packet.md",
+    "summary_table": "analysis/phase2_placeholders/hd04_tpcds_slice_summary_template.csv"
+  }
+}

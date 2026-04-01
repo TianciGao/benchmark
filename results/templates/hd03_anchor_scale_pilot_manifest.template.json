@@ -1,0 +1,36 @@
+{
+  "template_id": "hd03_anchor_scale_pilot_manifest",
+  "decision_id": "HD-03",
+  "status": "template_only",
+  "official_decision_made": false,
+  "reference_environment": {
+    "hardware_decision_id": "HD-01",
+    "postgres_config_decision_id": "HD-02",
+    "hostname": "",
+    "postgres_version": "",
+    "notes": ""
+  },
+  "candidate_scales": {
+    "tpch": [],
+    "tpcds": []
+  },
+  "measurement_protocol": {
+    "warmups_per_query": null,
+    "measured_runs_per_query": null,
+    "statistic_used": "median"
+  },
+  "pilot_queries": [],
+  "measurements": [],
+  "selection_criteria": {
+    "avoid_subsecond_noise_rule": "",
+    "feasibility_rule": ""
+  },
+  "requested_human_decision": {
+    "tpch_scale_factor": null,
+    "tpcds_scale_factor": null
+  },
+  "linked_docs": {
+    "evidence_packet": "docs/phase2_templates/HD-03_anchor_scale_packet.md",
+    "summary_table": "analysis/phase2_placeholders/hd03_anchor_scale_summary_template.csv"
+  }
+}

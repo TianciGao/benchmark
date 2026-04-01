@@ -1,0 +1,21 @@
+{
+  "pack_id": "anchor",
+  "status": "phase2_placeholder_only",
+  "official_pack_frozen": false,
+  "official_membership_defined": false,
+  "human_decisions_pending": [
+    "HD-03",
+    "HD-04",
+    "HD-05"
+  ],
+  "components": {
+    "tpch_all_22_expected_after_phase2": true,
+    "tpcds_slice_pending_human_approval": true,
+    "job_slice_pending_human_approval": true
+  },
+  "notes": [
+    "This file is placeholder metadata only.",
+    "It does not define official anchor membership.",
+    "It must not be used as a frozen pack manifest."
+  ]
+}

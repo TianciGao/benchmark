@@ -1,0 +1,22 @@
+{
+  "template_id": "hd06_public_realistic_review_manifest",
+  "decision_id": "HD-06",
+  "status": "template_only",
+  "official_decision_made": false,
+  "candidate_inventory": [],
+  "review_checks": [
+    "provenance_present",
+    "neutralization_reviewed",
+    "duplication_checked",
+    "adjudication_ready"
+  ],
+  "candidate_reviews": [],
+  "requested_human_decision": {
+    "approved_candidate_ids": [],
+    "target_case_count": 50
+  },
+  "linked_docs": {
+    "evidence_packet": "docs/phase2_templates/HD-06_public_realistic_packet.md",
+    "summary_table": "analysis/phase2_placeholders/hd06_public_realistic_shortlist_summary_template.csv"
+  }
+}
