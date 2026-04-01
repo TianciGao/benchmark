@@ -2,9 +2,15 @@
 
 SELECT
   'Q18' AS query_id,
-  o.orderpriority,
-  count(*) AS orders_seen,
-  round(sum(o.totalprice)::numeric, 2) AS total_revenue
-FROM hd03_tpch.orders_smoke AS o
-GROUP BY o.orderpriority
-ORDER BY o.orderpriority;
+  c.c_name,
+  o.o_orderkey,
+  o.o_totalprice,
+  round(sum(l.l_quantity)::numeric, 2) AS total_quantity
+FROM hd03_tpch.customer AS c
+JOIN hd03_tpch.orders AS o
+  ON c.c_custkey = o.o_custkey
+JOIN hd03_tpch.lineitem AS l
+  ON o.o_orderkey = l.l_orderkey
+GROUP BY c.c_name, o.o_orderkey, o.o_totalprice
+HAVING sum(l.l_quantity) > 100
+ORDER BY o.o_totalprice DESC, o.o_orderkey;

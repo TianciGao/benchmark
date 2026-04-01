@@ -79,6 +79,7 @@ Found:
 
 - `psql`
 - PostgreSQL connection environment variables
+- local machine build prerequisites: `gcc`, `make`, `tar`, `perl`
 - real local driver SQL entry points under `sql/hd03/`
 - benchmark asset-file layout under `sql/hd03/assets/tpch/` and `sql/hd03/assets/tpcds/`
 - local vendor staging and binding path under `tools/hd03/vendor/` and `tools/hd03/bin/`
@@ -88,7 +89,7 @@ Missing or still non-final:
 - `dbgen`
 - `dsdgen`
 - benchmark-faithful third-party generator binaries or source drops
-- benchmark-faithful schema/data/query assets beyond the current minimal smoke skeletons
+- full benchmark-faithful generated data assets beyond the current benchmark-shaped pilot assets
 
 ## Interpretation
 
@@ -96,7 +97,7 @@ The repository is currently:
 
 - input-complete for HD-03 preparation
 - command-slot concrete for HD-03 preparation
-- smoke-layer assets provisioned for HD-03 preparation
+- benchmark-shaped smoke-layer assets provisioned for HD-03 preparation
 - not yet proven pilot-executable for a real HD-03 run
 
 ### Additional Toolchain Layers

@@ -19,6 +19,13 @@ If the binaries are already staged under `tools/hd03/vendor/bin/`, run:
 python -m scripts.hd03_toolchain_bind
 ```
 
+If private source trees are staged under `tools/hd03/vendor/src/`, inspect or build them with:
+
+```bash
+python -m scripts.cli hd03-toolchain-prepare --benchmark all
+python -m scripts.cli hd03-toolchain-prepare --benchmark all --execute
+```
+
 If the binaries are not bound here and are not available on `PATH`, HD-03 cannot run a real benchmark pilot.
 
 Minimal smoke-level SQL assets live under:

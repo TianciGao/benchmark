@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: setup smoke pack-freeze eval-raw eval-deploy verify-cases tables figures postgres-env-check artifact-preflight hd03-pilot-init hd03-pilot-check-inputs hd03-pilot-toolchain-check hd03-toolchain-bind
+.PHONY: setup smoke pack-freeze eval-raw eval-deploy verify-cases tables figures postgres-env-check artifact-preflight hd03-pilot-init hd03-pilot-check-inputs hd03-pilot-toolchain-check hd03-toolchain-bind hd03-toolchain-prepare
 
 setup:
 	$(PYTHON) -m scripts.cli setup
@@ -43,3 +43,6 @@ hd03-pilot-toolchain-check:
 
 hd03-toolchain-bind:
 	$(PYTHON) -m scripts.hd03_toolchain_bind
+
+hd03-toolchain-prepare:
+	$(PYTHON) -m scripts.cli hd03-toolchain-prepare --benchmark $(BENCHMARK)
